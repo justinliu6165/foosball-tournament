@@ -1,0 +1,8 @@
+body{
+  background-color: rgb(54, 54, 54);
+}
+
+div.App {
+  text-align: center;
+  box-sizing: border-box;
+}
