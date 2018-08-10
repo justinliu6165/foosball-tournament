@@ -1,13 +1,42 @@
 div.country{
     width: 100px;
     height: 150px;
-    flex: 1;
     padding: 5px;
     padding-bottom: 2px;
     border: 1px solid green;
     margin: 1px;
     border-radius: 5px;
     background-color: rgb(34, 34, 34);
+    position: relative;
+}
+
+div.country:before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    height: 30px;
+    width: 3px;
+    background-color: green;
+}
+
+div.country:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    margin-top: 30px;
+    height: 3px;
+    width: 100%;
+    background-color: green;
+}
+
+div.country:nth-child(odd):after {
+    left: 50%;
+}
+
+div.country:nth-child(even):after {
+    left: -50%;
+    margin-left: 3px;
 }
 
 .country img{

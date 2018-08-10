@@ -2,51 +2,69 @@ let Teams = [
     {
         id: 'england',
         country: 'England',
-        firstPlayer: 'Aaron',
-        secondPlayer: 'Zoltan'
+        firstPlayer: '',
+        secondPlayer: ''
     },
     {
         id: 'chinaAndTaiwan',
         country: 'China & Taiwan',
-        firstPlayer: 'Albert',
-        secondPlayer: 'Justin'
+        firstPlayer: '',
+        secondPlayer: ''
     },
     {
         id: 'spain',
         country: 'Spain',
-        firstPlayer: 'Chris',
-        secondPlayer: 'Ricardo'
+        firstPlayer: '',
+        secondPlayer: ''
     },
     {
         id: 'ukraine',
         country: 'Ukraine',
-        firstPlayer: 'Constantin',
-        secondPlayer: 'Christian'
+        firstPlayer: '',
+        secondPlayer: ''
     },
     {
         id: 'brasil',
         country: 'Brasil',
-        firstPlayer: 'Damany',
-        secondPlayer: 'Raj'
+        firstPlayer: '',
+        secondPlayer: ''
     },
     {
         id: 'slovenia',
         country: 'Slovenia',
-        firstPlayer: 'Vesna',
+        firstPlayer: '',
         secondPlayer: ''
     },
     {
         id: 'italy',
         country: 'Italy',
-        firstPlayer: 'Vicky',
+        firstPlayer: '',
         secondPlayer: ''
     },
     {
         id: 'wales',
         country: 'Wales',
-        firstPlayer: 'David',
+        firstPlayer: '',
         secondPlayer: ''
     }
 ]
 
-module.exports.Teams = Teams;
+let Players = [
+    'Aaron',
+    'Zoltan',
+    'Albert',
+    'Justin',
+    'Chris',
+    'Ricardo',
+    'Constantin',
+    'Christian',
+    'Damany',
+    'Vesna',
+    'Norbert',
+    'David'
+]
+
+module.exports = {
+    Teams: Teams,
+    Players: Players
+}

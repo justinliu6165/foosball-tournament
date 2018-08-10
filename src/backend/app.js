@@ -1,11 +1,10 @@
 const express = require('express');
 const app = express();
-const teams = require('./backend-data.js')
+const Teams = require('./backend-data.js');
 
-app.get('/', (req,res)=>res.send('hello'));
 
-app.get('/country/teams', (req,res)=>{
-    res.send(teams);
+app.get('/rest/country/teams', (req,res)=>{
+    res.send(Teams);
 })
 
 const port = process.env.PORT || 3001;

@@ -8,27 +8,56 @@ export default class Gallery extends Component {
         super()
         this.state = {
             teams: null,
-            randomise: false
+            randomise: false,
+            players: null
         }
         this.randomClickHandler = this.randomClickHandler.bind(this);
         this.randomise = this.randomise.bind(this);
     }
 
     componentDidMount() {
-        fetch('/country/teams')
+        fetch('/rest/country/teams')
             .then(res => res.json())
             .then(teams => {
                 let teamA = teams.Teams;
-                let fullList = this.randomisePlayerHandler(teamA)
-                this.setState({teams: fullList})
+                let players = teams.Players;
+                let fullListOfPlayers = this.randomisePlayerHandler(players, teamA);
+                let teamSheet = this.inputPlayerHandlers(fullListOfPlayers, teamA);
+                this.setState({teams: teamSheet, players: fullListOfPlayers});
             })
+    }    
+    
+    randomisePlayerHandler(players, teams){ 
+        let newPlayers = [...players];
+        for (let i = newPlayers.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = newPlayers[i];
+            newPlayers[i] = newPlayers[j];
+            newPlayers[j] = temp;
+        }
+        if(newPlayers.length < teams.length*2){
+            for(let i = (teams.length*2) - newPlayers.length; i > 0 ; i--){
+                let j = Math.floor(Math.random() * (newPlayers.length));
+                newPlayers.push(newPlayers[j]);
+            }
+        }
+        return newPlayers;
     }
 
-    randomClickHandler(teams){
-        let randomteam = this.randomiseTeams(teams);
-        let fullList = this.randomisePlayerHandler(randomteam)
-        this.setState({teams: fullList})
-        this.setState({randomise: !this.state.randomise})
+    inputPlayerHandlers(fullListOfPlayers, teamA){
+        let newListofPlayers = fullListOfPlayers.slice();
+        for(let i = 0; i < teamA.length; i++){
+            teamA[i]['firstPlayer'] = newListofPlayers.shift(newListofPlayers[0]);
+            teamA[i]['secondPlayer'] = newListofPlayers.shift(newListofPlayers[1]);
+        }
+        return teamA;
+    }
+
+    randomClickHandler(players, teams){
+            let randomPLayers = this.randomisePlayerHandler(players, teams);
+            let randomteam = this.inputPlayerHandlers(randomPLayers, teams);
+            let random = this.randomiseTeams(randomteam);
+            this.setState({teams: random, randomise: !this.state.randomise})
     }
 
     randomiseTeams(teams){
@@ -43,42 +72,31 @@ export default class Gallery extends Component {
         return teams;
     }
 
-    randomisePlayerHandler(teams){
-        for(let i = 0; i < teams.length; i++){
-            console.log(teams[i]['secondPlayer'])
-            if(teams[i]['secondPlayer']===''){
-                teams[i]['secondPlayer'] = this.randomiseList(teams);
-            }
-        }
-        return teams;
-    }
-
-    randomiseList(teams){
-        let arrayOfPlayers = [];
-        for(let i = 0; i < teams.length; i++){
-            arrayOfPlayers.push(teams[i]['firstPlayer']);
-            if(teams[i]['secondPlayer'] !== ''){
-                arrayOfPlayers.push(teams[i]['secondPlayer'])
-            }
-        }
-        let randomNumber =  Math.floor(Math.random() * arrayOfPlayers.length);
-        return arrayOfPlayers[randomNumber];
-    }
 
     randomise(){
-        this.setState({randomise: !this.state.randomise})
+        let iterationCount = 0;
+        let totalIterations = 30;
+        let intervalId = setInterval(() => {
+            this.setState({randomise: !this.state.randomise});
+            if(iterationCount >= totalIterations) {
+                clearInterval(intervalId);
+            }
+            iterationCount++;
+        }, 100)
+       
     }
 
     render() {
-        let teams = this.state.teams;
-        console.log(teams)
+        let {teams, players} = this.state;
+
+        console.log(teams, players);
 
         if (teams === null ) {
             return <div>Loading...</div>
         }
 
         if(this.state.randomise){
-            this.randomClickHandler(teams)
+            this.randomClickHandler(players, teams)
         }
 
            return (
